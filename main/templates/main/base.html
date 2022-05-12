@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        
+        <title>{% block title %} {% endblock %}</title>
+        
+        <style>
+            body{
+                padding-top: 50px;
+            }
+            {% block css %} {% endblock %}
+        </style>
+        
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+
+            <a class="navbar-brand" href="/">Crime Report</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/main">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/contact">Contact Us</a>
+                    </li>
+                </ul>
+                
+                <form method='get' action='/shop/search/' class="form-inline my-2 my-lg-0">
+                    <input id="search" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 mr-4 my-sm-0" type="submit">Search</button>
+                </form>
+
+                {% if user.is_authenticated %}
+                    <h6 class="text-light">Hi, {{user.username}}</h6>
+                    <a href="/accounts/logout" class="btn btn-danger mx-3">Log out</a>
+                    <a href="/main/dashboard/{{user}}" class="btn btn-outline-warning">Dashboard</a>
+                {% else %}
+                    <a href="/accounts/login" class="btn btn-outline-primary mr-2">Login</a>
+                    <a href="/accounts/register" class="btn btn-primary mr-3">Sign Up</a>
+                {% endif %}
+
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-warning mx-3 rounded-pill"><b>Admin Panel</b></a>
+                {% endif %}
+
+            </div>
+        </nav>
+
+        {% block body %} {% endblock %} <!--This portion will show the contents of inherited page(inside the body block)-->
+
+        <!-- Example row of columns -->
+        <div class="row mt-5 p-5 bg-dark text-light d-flex justify-content-center align-items-center">
+            <div class="col-md-3">
+                <h5>About</h5>
+                <h6>option1</h6>
+                <h6>option2</h6>
+                <h6>option3</h6>
+                <h6>option4</h6>
+            </div>
+            <div class="col-md-3">
+                <h5>Policies</h5>
+                <h6>option1</h6>
+                <h6>option2</h6>
+                <h6>option3</h6>
+                <h6>option4</h6>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact</h5>
+                <h6>option1</h6>
+                <h6>option2</h6>
+                <h6>option3</h6>
+                <h6>option4</h6>
+            </div>
+            <div class="col-md-3">
+                <h5>More</h5>
+                <h6>option1</h6>
+                <h6>option2</h6>
+                <h6>option3</h6>
+                <h6>option4</h6>
+            </div>
+        </div>
+
+        
+        {% block js %} {% endblock %} <!--This will add the javascript file of the template that inherited 'base.html'-->
+
+  </body>
+</html>

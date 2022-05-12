@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{username}} Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{username}}</h1>
+    
+    {% if userRole == 'reporter' %}
+        <h3>report Crime spots (reporter): </h3>
+        <ol>
+            {% for case in cases %}
+                <li>{{case.case_id}}</li>
+            {% endfor %}
+        </ol>
+    {% elif userRole == 'investigator' %}
+        <h3>case Crime spots (investigator): </h3>
+        <ol>
+            {% for case in cases %}
+                <li>{{case.case_id}}</li>
+            {% endfor %}
+        </ol>
+    {% elif request.user.is_superuser %}
+        <h3>(administrator)</h3>
+    {% else %}
+        <h2>You have nothing to manage</h2>
+    {% endif %}
+</body>
+</html>

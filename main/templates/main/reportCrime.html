@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Report a crime {% endblock %}
+
+{% block body %} 
+
+    {% if user.is_authenticated %}
+        <section>
+            <h1>Report a crime</h1>
+            <form action="/main/reportCrime/" method="post">  {% csrf_token %}
+                <label for="desc">Description</label> <br>
+                <input type="text" id="desc" name="desc"> <br>
+                <label for="phone">Phone</label> <br>
+                <input type="text" id="phone" name="phone"> <br>
+                <label for="location">Location</label> <br>
+                <input type="text" id="location" name="location"> <br>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    {% else %}
+        <h4>please login or signup to report a crime</h4>
+    {% endif %} 
+
+{% endblock %}
+
+
+
