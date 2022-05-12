@@ -43,6 +43,24 @@ def dashboard(request, username):
     elif Case.objects.filter(investigator=fullname).exists():
         cases = Case.objects.filter(investigator=fullname)
         userRole = "investigator"
-
+    else: 
+        pass
     params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
     return render(request, 'main/dashboard.html', params)
+
+
+def adminPanel(request, username):
+    user = request.user
+    email = user.email
+    fullname = user.first_name + ' ' + user.last_name
+    cases, userRole = None, None 
+    if Case.objects.filter(reporter_name=fullname).exists(): 
+        cases = Case.objects.filter(reporter_name=fullname)
+        userRole = "reporter" 
+    elif Case.objects.filter(investigator=fullname).exists():
+        cases = Case.objects.filter(investigator=fullname)
+        userRole = "investigator"
+    else: 
+        pass
+    params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
+    return render(request, 'main/adminPanel.html', params)

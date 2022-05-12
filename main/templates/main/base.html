@@ -45,7 +45,7 @@
                     </li>
                 </ul>
                 
-                <form method='get' action='/shop/search/' class="form-inline my-2 my-lg-0">
+                <form method='get' action='/main/search/' class="form-inline my-2 my-lg-0">
                     <input id="search" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 mr-4 my-sm-0" type="submit">Search</button>
                 </form>
@@ -53,14 +53,14 @@
                 {% if user.is_authenticated %}
                     <h6 class="text-light">Hi, {{user.username}}</h6>
                     <a href="/accounts/logout" class="btn btn-danger mx-3">Log out</a>
-                    <a href="/main/dashboard/{{user}}" class="btn btn-outline-warning">Dashboard</a>
+                    {% if request.user.is_superuser %}
+                        <a href="/main/adminPanel/{{user}}" class="btn btn-warning rounded-pill"><b>Admin Panel</b></a>
+                    {% else %}
+                        <a href="/main/dashboard/{{user}}" class="btn btn-outline-warning">Dashboard</a>
+                    {% endif %}
                 {% else %}
                     <a href="/accounts/login" class="btn btn-outline-primary mr-2">Login</a>
                     <a href="/accounts/register" class="btn btn-primary mr-3">Sign Up</a>
-                {% endif %}
-
-                {% if request.user.is_superuser %}
-                    <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-warning mx-3 rounded-pill"><b>Admin Panel</b></a>
                 {% endif %}
 
             </div>
