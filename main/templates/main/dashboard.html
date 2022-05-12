@@ -1,32 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{username}} profile</title>
-</head>
-<body>
-    <h1>Welcome, {{fullname}} ({{username}})</h1>
-    
-    {% if userRole == 'reporter' %}
-        <h3>Cases (reporter): </h3>
-        <ol>
-            {% for case in cases %}
-                <li>{{case.case_code}}</li>
-            {% endfor %}
-        </ol>
-    {% elif userRole == 'investigator' %}
-        <h3>Cases (investigator): </h3>
-        <ol>
-            {% for case in cases %}
-                <li>{{case.case_code}}</li>
-            {% endfor %}
-        </ol>
-    {% elif request.user.is_superuser %}
-        <h3>(administrator)</h3>
-    {% else %}
-        <h2>You have nothing to manage</h2>
-    {% endif %}
-</body>
-</html>
+
+
+
+{% extends 'main/base.html' %}
+
+{% block title %} {{username}} profile {% endblock %}
+
+
+{% block body %}
+    <h6 class="alert alert-warning text-center">Welcome, {{fullname}} ({{username}})</h6>
+    <section class="container">
+        <div class="row my-2">
+            <div class="col-md-2">
+                <h4 class="text-center alert alert-info">Report a crime</h4>
+                <form action="" method="POST">
+                    {% csrf_token %} 
+                    <input type="submit" class="btn btn-primary" value="Add">
+                </form>
+            </div>
+            <div class="col-md-10">
+                <h4 class="text-center alert alert-info">Reported cases</h4>
+                {% if cases %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Case no.</th>
+                            <th scope="col" class="text-center">Location</th>
+                            <th scope="col" class="text-center">Description</th>
+                            <th scope="col" class="text-center">Status</th>
+                            <th scope="col" class="text-center">Investigator</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for case in cases %}
+                                <tr>
+                                    <th scope="row" class="text-primary">{{case.case_code}}</th>
+                                    <td class="text-center">{{case.location}}</td>
+                                    <td>{{case.desc}}</td>
+                                    <td class="text-center">{{case.status}}</td>
+                                    <td class="text-center">{{case.investigator_code}}</td>
+                                    <td class="text-center">            
+                                        <a href="{% url 'updateData' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                        <form action="{% url 'deleteData' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                            <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
+                                        </form>                
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %} 
+                    <h6 class="text-center alert alert-danger">No records</h6>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Case
 from accounts.models import Reporter
 from django.contrib.auth.models import User, auth
@@ -64,3 +64,25 @@ def adminPanel(request, username):
         pass
     params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
     return render(request, 'main/adminPanel.html', params)
+
+
+def updateData(request, id):
+    # if request.method== 'POST':
+    #     record = Student.objects.get(pk=id)
+    #     fm = StudentRegistration(request.POST, instance=record) # Generating a form with the values of the record with the given id
+    #     if fm.is_valid():
+    #         fm.save()
+    # else:
+    #     record = Student.objects.get(pk=id)
+    #     fm = StudentRegistration(instance=record) 
+    # return render(request, 'main/update_data.html', {'form':fm})
+    return HttpResponse("update data")
+
+
+def deleteData(request, id):
+    if request.method == 'POST':
+        record = Case.objects.get(pk=id) 
+        reporter_name = record.reporter_name
+        username = request.user.username
+        record.delete()
+        return redirect('/main/dashboard/'+username)
