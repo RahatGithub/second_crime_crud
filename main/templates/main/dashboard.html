@@ -8,9 +8,9 @@
 
 {% block body %}
     <h6 class="alert alert-warning text-center">Welcome, {{fullname}} ({{username}})</h6>
-    <section class="container">
+    <section class="mx-5">
         <div class="row my-2">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h4 class="text-center alert alert-info">Report a crime</h4>
                 <form action="" method="POST">
                     {% csrf_token %} 
@@ -18,7 +18,7 @@
                     <input type="submit" class="btn btn-primary" value="Add">
                 </form>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <h4 class="text-center alert alert-info">Reported cases</h4>
                 {% if cases %}
                     <table class="table table-hover">

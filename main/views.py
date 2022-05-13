@@ -34,7 +34,6 @@ def reportCrime(request):
 
 
 def dashboard(request, username):
-    
     if request.method == 'POST':
         fm = ReportCase(request.POST)   
         if fm.is_valid():
@@ -57,7 +56,7 @@ def dashboard(request, username):
     if Case.objects.filter(reporter_name=fullname).exists(): 
         cases = Case.objects.filter(reporter_name=fullname)
         userRole = "reporter" 
-    elif Case.objects.filter(investigator=fullname).exists():
+    elif Case.objects.filter(investigator_code=fullname).exists():
         cases = Case.objects.filter(investigator=fullname)
         userRole = "investigator"
     else: 
@@ -67,20 +66,21 @@ def dashboard(request, username):
 
 
 def adminPanel(request, username):
-    user = request.user
-    email = user.email
-    fullname = user.first_name + ' ' + user.last_name
-    cases, userRole = None, None 
-    if Case.objects.filter(reporter_name=fullname).exists(): 
-        cases = Case.objects.filter(reporter_name=fullname)
-        userRole = "reporter" 
-    elif Case.objects.filter(investigator=fullname).exists():
-        cases = Case.objects.filter(investigator=fullname)
-        userRole = "investigator"
-    else: 
-        pass
-    params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
-    return render(request, 'main/adminPanel.html', params)
+    # user = request.user
+    # email = user.email
+    # fullname = user.first_name + ' ' + user.last_name
+    # cases, userRole = None, None 
+    # if Case.objects.filter(reporter_name=fullname).exists(): 
+    #     cases = Case.objects.filter(reporter_name=fullname)
+    #     userRole = "reporter" 
+    # elif Case.objects.filter(investigator=fullname).exists():
+    #     cases = Case.objects.filter(investigator=fullname)
+    #     userRole = "investigator"
+    # else: 
+    #     pass
+    # params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
+    # return render(request, 'main/adminPanel.html', params)
+    return render(request, 'admin/')
 
 
 def updateData(request, id):
@@ -99,7 +99,6 @@ def updateData(request, id):
 def deleteData(request, id):
     if request.method == 'POST':
         record = Case.objects.get(pk=id) 
-        reporter_name = record.reporter_name
         username = request.user.username
         record.delete()
         return redirect('/main/dashboard/'+username)
