@@ -1,55 +1,54 @@
-
-
-
 {% extends 'main/base.html' %}
 
 {% block title %} {{username}} profile {% endblock %}
 
 
 {% block body %}
-    <h6 class="alert alert-warning text-center">Welcome, {{fullname}} ({{username}})</h6>
+    <h6 class="alert alert-success text-center">Welcome, {{fullname}} ({{username}})</h6>
     <section class="mx-5">
         <div class="row my-2">
             <div class="col-md-3">
-                <h4 class="text-center alert alert-info">Report a crime</h4>
+                <h4 class="text-center alert alert-primary">Report a crime</h4>
                 <form action="" method="POST">
                     {% csrf_token %} 
                     {{form.as_p}}
-                    <input type="submit" class="btn btn-primary" value="Add">
+                    <input type="submit" class="btn btn-success" value="Report">
                 </form>
             </div>
-            <div class="col-md-9">
-                <h4 class="text-center alert alert-info">Reported cases</h4>
+            <div class="col-md-9"> 
+                <h4 class="text-center alert alert-primary">Reported cases</h4>
                 {% if cases %}
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="text-center">Case no.</th>
-                            <th scope="col" class="text-center">Location</th>
-                            <th scope="col" class="text-center">Description</th>
-                            <th scope="col" class="text-center">Status</th>
-                            <th scope="col" class="text-center">Investigator</th>
-                            <th scope="col" class="text-center">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for case in cases %}
-                                <tr>
-                                    <th scope="row" class="text-primary">{{case.case_code}}</th>
-                                    <td class="text-center">{{case.location}}</td>
-                                    <td>{{case.desc}}</td>
-                                    <td class="text-center">{{case.status}}</td>
-                                    <td class="text-center">{{case.investigator_code}}</td>
-                                    <td class="text-center">            
-                                        <a href="{% url 'updateData' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
-                                        <form action="{% url 'deleteData' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
-                                            <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
-                                        </form>                
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="overflow-auto" style="height: 350px;">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Case no.</th>
+                                <th scope="col" class="text-center">Location</th>
+                                <th scope="col" class="text-center">Description</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Investigator</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for case in cases %}
+                                    <tr>
+                                        <th scope="row" class="text-success">{{case.case_code}}</th>
+                                        <td class="text-center">{{case.location}}</td>
+                                        <td>{{case.desc}}</td>
+                                        <td class="text-center">{{case.status}}</td>
+                                        <td class="text-center">{{case.investigator_code}}</td>
+                                        <td class="text-center">            
+                                            <a href="{% url 'updateData' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                            <form action="{% url 'deleteData' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                                <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
+                                            </form>                
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% else %} 
                     <h6 class="text-center alert alert-danger">No records</h6>
                 {% endif %}

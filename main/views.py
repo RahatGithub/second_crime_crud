@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Case
-from .forms import ReportCase
-from accounts.models import Reporter
+from .forms import ReportCase, RegisterInvestigator
+from accounts.models import Reporter, Investigator
 from django.contrib.auth.models import User, auth
 from random import randint
 from django.http import HttpResponse
@@ -65,22 +65,22 @@ def dashboard(request, username):
     return render(request, 'main/dashboard.html', params)
 
 
-def adminPanel(request, username):
-    # user = request.user
-    # email = user.email
-    # fullname = user.first_name + ' ' + user.last_name
-    # cases, userRole = None, None 
-    # if Case.objects.filter(reporter_name=fullname).exists(): 
-    #     cases = Case.objects.filter(reporter_name=fullname)
-    #     userRole = "reporter" 
-    # elif Case.objects.filter(investigator=fullname).exists():
-    #     cases = Case.objects.filter(investigator=fullname)
-    #     userRole = "investigator"
-    # else: 
-    #     pass
-    # params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
-    # return render(request, 'main/adminPanel.html', params)
-    return render(request, 'admin/')
+def adminPanel(request):
+    if request.method == 'POST':
+        fm = RegisterInvestigator(request.POST)   
+        if fm.is_valid():
+            investigator_code = 'INV_' + chr(randint(65,70)) + str(randint(100000,999999))  # Generating a code for the investigator
+            name = fm.cleaned_data['name']
+            phone = fm.cleaned_data['phone']
+            email = fm.cleaned_data['email']
+            record = Investigator(investigator_code=investigator_code, name=name, phone=phone, email=email, cases="")
+            record.save() 
+            fm = RegisterInvestigator()
+    else:
+        fm = RegisterInvestigator()
+    investigators = Investigator.objects.all()
+    params = {'form':fm, 'investigators':investigators}
+    return render(request, 'main/adminPanel.html', params)
 
 
 def updateData(request, id):

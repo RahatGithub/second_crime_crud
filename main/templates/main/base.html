@@ -54,7 +54,7 @@
                     <h6 class="text-light">Hi, {{user.username}}</h6>
                     <a href="/accounts/logout" class="btn btn-danger mx-3">Log out</a>
                     {% if request.user.is_superuser %}
-                        <a href="/admin" class="btn btn-warning rounded-pill"><b>Admin Panel</b></a>
+                        <a href="/main/adminPanel" class="btn btn-warning rounded-pill"><b>Admin Panel</b></a>
                     {% else %}
                         <a href="/main/dashboard/{{user}}" class="btn btn-outline-warning">Dashboard</a>
                     {% endif %}

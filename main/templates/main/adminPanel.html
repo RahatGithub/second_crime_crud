@@ -1,33 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{username}} profile</title>
-</head>
-<body>
-    <h1>Welcome, {{fullname}} ({{username}})</h1>
-    
-    {% if userRole == 'reporter' %}
-        <h3>Cases (reporter): </h3>
-        <ol>
-            {% for case in cases %}
-                <li>{{case.case_code}}</li>
-            {% endfor %}
-        </ol>
-    {% elif userRole == 'investigator' %}
-        <h3>Cases (investigator): </h3>
-        <ol>
-            {% for case in cases %}
-                <li>{{case.case_code}}</li>
-            {% endfor %}
-        </ol>
-    {% elif request.user.is_superuser %}
-        <h3>(administrator)</h3>
-    {% else %}
-        <h2>You have nothing to manage</h2>
-    {% endif %}
-    <h1>Yooo this is the admin panel</h1>
-</body>
-</html>
+{% extends 'main/base.html' %}
+
+{% block title %} Admin Panel {% endblock %}
+
+
+{% block body %}
+    <h6 class="alert alert-info text-center">Welcome, admin (admin)</h6>
+    <section class="mx-5">
+        <div class="row my-2">
+            <div class="col-md-4">
+                <h4 class="text-center alert alert-danger">Register an Investigator</h4>
+                <form action="" method="POST">
+                    {% csrf_token %} 
+                    {{form.as_p}}
+                    <input type="submit" class="btn btn-info" value="Register">
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h4 class="text-center alert alert-danger">Registered Investigators</h4>
+                {% if investigators %}
+                    <table class="table table-hover overflow-auto">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Investigator ID</th>
+                            <th scope="col" class="text-center">Name</th>
+                            <th scope="col" class="text-center">Phone</th>
+                            <th scope="col" class="text-center">Email</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for investigator in investigators %}
+                                <tr>
+                                    <th scope="row" class="text-info">{{investigator.investigator_code}}</th>
+                                    <td class="text-center">{{investigator.name}}</td>
+                                    <td class="text-center">{{investigator.phone}}</td>
+                                    <td class="text-center">{{investigator.email}}</td>
+                                    <td class="text-center">            
+                                        <a href="{% url 'updateData' investigator.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                        <form action="{% url 'deleteData' investigator.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                            <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
+                                        </form>                
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %} 
+                    <h6 class="text-center alert alert-danger">No records</h6>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
