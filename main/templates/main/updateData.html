@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Update Data {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 offset-2 my-3">
+            <h4 class="alert alert-warning">Update Information</h4>
+            <form action="" method="POST">  {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-warning" value="Update"> 
+                <a href="/main/dashboard/{{request.user.username}}" class="btn btn-info text-white">Back</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
