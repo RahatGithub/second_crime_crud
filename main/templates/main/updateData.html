@@ -3,13 +3,13 @@
 {% block title %} Update Data {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-6 offset-2 my-3">
-            <h4 class="alert alert-warning">Update Information</h4>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6  my-5">
+            <h4 class="alert alert-warning text-center">Update Information</h4>
             <form action="" method="POST">  {% csrf_token %}
                 {{form.as_p}}
                 <input type="submit" class="btn btn-warning" value="Update"> 
-                <a href="/main/dashboard/{{request.user.username}}" class="btn btn-info text-white">Back</a>
+                <a href="/main/dashboard/{{request.user.username}}" class="btn btn-info text-white">Back to dashboard</a>
             </form>
         </div>
     </div>

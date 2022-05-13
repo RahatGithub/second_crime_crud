@@ -34,6 +34,22 @@ def reportCrime(request):
 
 
 def dashboard(request, username):
+    
+    if request.method == 'POST':
+        fm = ReportCase(request.POST)   
+        if fm.is_valid():
+            case_code = 'CAS_' + chr(randint(65,70)) + str(randint(100000,999999))  # Generating a code for the case
+            user = request.user 
+            fullname = user.first_name + ' ' + user.last_name
+            desc = fm.cleaned_data['desc']
+            location = fm.cleaned_data['location']
+            reporter_phone = fm.cleaned_data['reporter_phone']
+            record = Case(case_code=case_code, location=location, desc=desc, status="Pending", reporter_name=fullname, reporter_phone=reporter_phone, investigator_code="NA")
+            record.save() 
+            fm = ReportCase()
+    else:
+        fm = ReportCase()
+    
     user = request.user
     email = user.email
     fullname = user.first_name + ' ' + user.last_name
@@ -46,7 +62,7 @@ def dashboard(request, username):
         userRole = "investigator"
     else: 
         pass
-    params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole}
+    params = {'username':username, 'fullname':fullname, 'cases':cases, 'userRole':userRole, 'form':fm}
     return render(request, 'main/dashboard.html', params)
 
 
@@ -78,7 +94,6 @@ def updateData(request, id):
         fm = ReportCase(instance=record) 
     user = request.user
     return render(request, 'main/updateData.html', {'form':fm})
-    # return HttpResponse("update data")
 
 
 def deleteData(request, id):
