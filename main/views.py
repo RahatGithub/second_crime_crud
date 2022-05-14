@@ -157,3 +157,7 @@ def contact(request):
     else:
         fm = ContactMsg() 
     return render(request, 'main/contact.html', {'form':fm})
+
+
+def about(request):
+    return render(request, 'main/about.html')
