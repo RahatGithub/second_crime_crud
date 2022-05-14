@@ -65,24 +65,6 @@ def dashboard(request, username):
     return render(request, 'main/dashboard.html', params)
 
 
-def adminPanel(request):
-    if request.method == 'POST':
-        fm = RegisterInvestigator(request.POST)   
-        if fm.is_valid():
-            investigator_code = 'INV_' + chr(randint(65,70)) + str(randint(100000,999999))  # Generating a code for the investigator
-            name = fm.cleaned_data['name']
-            phone = fm.cleaned_data['phone']
-            email = fm.cleaned_data['email']
-            record = Investigator(investigator_code=investigator_code, name=name, phone=phone, email=email, cases="")
-            record.save() 
-            fm = RegisterInvestigator()
-    else:
-        fm = RegisterInvestigator()
-    investigators = Investigator.objects.all()
-    params = {'form':fm, 'investigators':investigators}
-    return render(request, 'main/adminPanel.html', params)
-
-
 def updateData(request, id):
     if request.method== 'POST':
         record = Case.objects.get(pk=id)
@@ -102,3 +84,40 @@ def deleteData(request, id):
         username = request.user.username
         record.delete()
         return redirect('/main/dashboard/'+username)
+
+
+def adminPanel(request):
+    if request.method == 'POST':
+        fm = RegisterInvestigator(request.POST)   
+        if fm.is_valid():
+            investigator_code = 'INV_' + chr(randint(65,70)) + str(randint(100000,999999))  # Generating a code for the investigator
+            name = fm.cleaned_data['name']
+            phone = fm.cleaned_data['phone']
+            email = fm.cleaned_data['email']
+            record = Investigator(investigator_code=investigator_code, name=name, phone=phone, email=email, cases="")
+            record.save() 
+            fm = RegisterInvestigator()
+    else:
+        fm = RegisterInvestigator()
+    investigators = Investigator.objects.all()
+    params = {'form':fm, 'investigators':investigators}
+    return render(request, 'main/adminPanel.html', params)
+
+
+def updateInvestigator(request, id):
+    if request.method== 'POST':
+        record = Investigator.objects.get(pk=id)
+        fm = RegisterInvestigator(request.POST, instance=record) # Generating a form with the values of the record with the given id
+        if fm.is_valid():
+            fm.save()
+    else:
+        record = Investigator.objects.get(pk=id)
+        fm = RegisterInvestigator(instance=record) 
+    return render(request, 'main/updateInvestigator.html', {'form':fm})
+
+
+def deleteInvestigator(request, id):
+    if request.method == 'POST':
+        record = Investigator.objects.get(pk=id) 
+        record.delete()
+        return redirect('/main/adminPanel/')

@@ -16,35 +16,37 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <h4 class="text-center alert alert-danger">Registered Investigators</h4>
+                <h4 class="text-center alert alert-danger">Investigators' Information</h4>
                 {% if investigators %}
-                    <table class="table table-hover overflow-auto">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="text-center">Investigator ID</th>
-                            <th scope="col" class="text-center">Name</th>
-                            <th scope="col" class="text-center">Phone</th>
-                            <th scope="col" class="text-center">Email</th>
-                            <th scope="col" class="text-center">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for investigator in investigators %}
-                                <tr>
-                                    <th scope="row" class="text-info">{{investigator.investigator_code}}</th>
-                                    <td class="text-center">{{investigator.name}}</td>
-                                    <td class="text-center">{{investigator.phone}}</td>
-                                    <td class="text-center">{{investigator.email}}</td>
-                                    <td class="text-center">            
-                                        <a href="{% url 'updateData' investigator.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
-                                        <form action="{% url 'deleteData' investigator.id %}" method="POST" class="d-inline"> {% csrf_token %}
-                                            <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
-                                        </form>                
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="overflow-auto" style="height: 350px;">
+                        <table class="table table-hover overflow-auto">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Investigator ID</th>
+                                <th scope="col" class="text-center">Name</th>
+                                <th scope="col" class="text-center">Phone</th>
+                                <th scope="col" class="text-center">Email</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for investigator in investigators %}
+                                    <tr>
+                                        <th scope="row" class="text-info">{{investigator.investigator_code}}</th>
+                                        <td class="text-center">{{investigator.name}}</td>
+                                        <td class="text-center">{{investigator.phone}}</td>
+                                        <td class="text-center">{{investigator.email}}</td>
+                                        <td class="text-center">            
+                                            <a href="{% url 'updateInvestigator' investigator.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                            <form action="{% url 'deleteInvestigator' investigator.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                                <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
+                                            </form>                
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% else %} 
                     <h6 class="text-center alert alert-danger">No records</h6>
                 {% endif %}

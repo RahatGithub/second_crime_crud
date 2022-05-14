@@ -8,5 +8,8 @@ urlpatterns = [
     # path('adminPanel/<str:username>', views.adminPanel, name="adminPanel"),
     path('adminPanel/', views.adminPanel, name="adminPanel"),
     path('deleteData/<int:id>/', views.deleteData, name='deleteData'),
-    path('updateDate/<int:id>/', views.updateData, name='updateData')
+    path('updateDate/<int:id>/', views.updateData, name='updateData'),
+    path('updateInvestigator/<int:id>/', views.updateInvestigator, name='updateInvestigator'),
+    path('deleteInvestigator/<int:id>/', views.deleteInvestigator, name='deleteInvestigator'),
+
 ]
