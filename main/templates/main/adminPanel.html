@@ -6,7 +6,7 @@
 {% block body %}
     <h6 class="alert alert-info text-center">Welcome, Admin</h6>
     <section class="mx-5">
-        <div class="row my-2 d-flex justify-content-center">
+        <div class="row my-4 d-flex justify-content-center">
             <div class="col-md-12">
                 <h4 class="text-center alert alert-primary">Case Information</h4>
                 {% if cases %}
@@ -50,7 +50,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row my-2 d-flex justify-content-center">
+        <div class="row my-4 d-flex justify-content-center">
             <div class="col-md-12">
                 <h4 class="text-center alert alert-primary">Reporters' Information</h4>
                 {% if reporters %}
@@ -81,7 +81,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row my-2">
+        <div class="row my-4">
             <div class="col-md-4">
                 <h4 class="text-center alert alert-primary">Register an Investigator</h4>
                 <form action="" method="POST">
@@ -125,6 +125,37 @@
                         </table>
                     </div>
                 {% else %} 
+                    <h6 class="text-center alert alert-danger">No records</h6>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row my-4 d-flex justify-content-center">
+            <div class="col-md-12">
+                <h4 class="text-center alert alert-primary">Contact Information</h4>
+                {% if contacts %}
+                    <div class="overflow-auto" style="height: 350px;">
+                        <table class="table table-hover overflow-auto">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Contact SL</th>
+                                <th scope="col" class="text-center">Name</th>
+                                <th scope="col" class="text-center">Phone</th>
+                                <th scope="col" class="text-center">Message</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for contact in contacts %}
+                                    <tr>
+                                        <th scope="row" class="text-info text-center">{{contact.id}}</th>
+                                        <td class="text-center">{{contact.name}}</td>
+                                        <td class="text-center">{{contact.phone}}</td>
+                                        <td class="text-center">{{contact.message}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
                     <h6 class="text-center alert alert-danger">No records</h6>
                 {% endif %}
             </div>

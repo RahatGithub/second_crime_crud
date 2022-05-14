@@ -1,5 +1,5 @@
 from django import forms 
-from .models import Case
+from .models import Case, Contact
 from accounts.models import Investigator
 
 class ReportCase(forms.ModelForm):
@@ -33,4 +33,16 @@ class RegisterInvestigator(forms.ModelForm):
             'name' : forms.TextInput(attrs={'class':'form-control'}),
             'phone' : forms.TextInput(attrs={'class':'form-control'}),
             'email' : forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+
+
+class ContactMsg(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'phone', 'message']
+        widgets = {
+            'name' : forms.TextInput(attrs={'class':'form-control'}),
+            'phone' : forms.TextInput(attrs={'class':'form-control'}),
+            'message' : forms.TextInput(attrs={'class':'form-control'}),
         }

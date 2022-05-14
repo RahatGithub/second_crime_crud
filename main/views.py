@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Case
-from .forms import ReportCase, UpdateCase, RegisterInvestigator
+from .models import Case, Contact
+from .forms import ReportCase, UpdateCase, RegisterInvestigator, ContactMsg
 from accounts.models import Reporter, Investigator
 from django.contrib.auth.models import User, auth
 from random import randint
@@ -101,7 +101,8 @@ def adminPanel(request):
     cases = Case.objects.all()
     reporters = Reporter.objects.all()
     investigators = Investigator.objects.all()
-    params = {'form':fm, 'investigators':investigators, 'cases':cases, 'reporters':reporters}
+    contacts = Contact.objects.all()
+    params = {'form':fm, 'investigators':investigators, 'cases':cases, 'reporters':reporters, 'contacts':contacts}
     return render(request, 'main/adminPanel.html', params)
 
 
@@ -140,3 +141,19 @@ def deleteCase(request, id):
         record = Case.objects.get(pk=id) 
         record.delete()
         return redirect('/main/adminPanel/')
+
+
+def contact(request):
+    if request.method== 'POST':
+            # record = Contact.objects.get(pk=id)
+            fm = ContactMsg(request.POST)
+            if fm.is_valid():
+                name = fm.cleaned_data['name']
+                phone = fm.cleaned_data['phone']
+                message = fm.cleaned_data['message']
+                record = Contact(name=name, phone=phone, message=message)
+                record.save() 
+                fm = ContactMsg()
+    else:
+        fm = ContactMsg() 
+    return render(request, 'main/contact.html', {'form':fm})

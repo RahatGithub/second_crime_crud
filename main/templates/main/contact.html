@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Contact {% endblock %}
+
+
+{% block body %}
+
+    <section class="d-flex justify-content-center row my-5">
+        <div class="col-md-5">
+            <h4 class="alert alert-primary text-center">Easy contact</h4>
+            <form action="" method="POST">
+                {% csrf_token %} 
+                {{form.as_p}}
+                <div class="d-flex justify-content-center">
+                    <input type="submit" class="btn btn-info col-md-4" value="Contact">
+                </div>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
