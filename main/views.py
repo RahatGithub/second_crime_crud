@@ -99,8 +99,10 @@ def adminPanel(request):
             fm = RegisterInvestigator()
     else:
         fm = RegisterInvestigator()
+    cases = Case.objects.all()
+    reporters = Reporter.objects.all()
     investigators = Investigator.objects.all()
-    params = {'form':fm, 'investigators':investigators}
+    params = {'form':fm, 'investigators':investigators, 'cases':cases, 'reporters':reporters}
     return render(request, 'main/adminPanel.html', params)
 
 

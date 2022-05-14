@@ -4,11 +4,86 @@
 
 
 {% block body %}
-    <h6 class="alert alert-info text-center">Welcome, admin (admin)</h6>
+    <h6 class="alert alert-info text-center">Welcome, Admin</h6>
     <section class="mx-5">
+        <div class="row my-2 d-flex justify-content-center">
+            <div class="col-md-12">
+                <h4 class="text-center alert alert-primary">Case Information</h4>
+                {% if cases %}
+                    <div class="overflow-auto" style="height: 350px;">
+                        <table class="table table-hover overflow-auto">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Case no.</th>
+                                <th scope="col" class="text-center">Location</th>
+                                <th scope="col" class="text-center">Description</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Reporter Name</th>
+                                <th scope="col" class="text-center">Reporter Phone</th>
+                                <th scope="col" class="text-center">Investigator</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for case in cases %}
+                                    <tr>
+                                        <th scope="row" class="text-info text-center">{{case.case_code}}</th>
+                                        <td class="text-center">{{case.location}}</td>
+                                        <td class="text-center">{{case.desc}}</td>
+                                        <td class="text-center">{{case.status}}</td>
+                                        <td class="text-center">{{case.reporter_name}}</td>
+                                        <td class="text-center">{{case.reporter_phone}}</td>
+                                        <td class="text-center">{{case.investigator_code}}</td>
+                                        <td class="text-center">            
+                                            <a href="{% url 'updateData' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                            <form action="{% url 'deleteData' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                                <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
+                                            </form>                
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %} 
+                    <h6 class="text-center alert alert-danger">No records</h6>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row my-2 d-flex justify-content-center">
+            <div class="col-md-12">
+                <h4 class="text-center alert alert-primary">Reporters' Information</h4>
+                {% if reporters %}
+                    <div class="overflow-auto" style="height: 350px;">
+                        <table class="table table-hover overflow-auto">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Reporter ID</th>
+                                <th scope="col" class="text-center">Name</th>
+                                <th scope="col" class="text-center">Phone</th>
+                                <th scope="col" class="text-center">Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for reporter in reporters %}
+                                    <tr>
+                                        <th scope="row" class="text-info text-center">{{reporter.reporter_code}}</th>
+                                        <td class="text-center">{{reporter.name}}</td>
+                                        <td class="text-center">{{reporter.phone}}</td>
+                                        <td class="text-center">{{reporter.email}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %} 
+                    <h6 class="text-center alert alert-danger">No records</h6>
+                {% endif %}
+            </div>
+        </div>
         <div class="row my-2">
             <div class="col-md-4">
-                <h4 class="text-center alert alert-danger">Register an Investigator</h4>
+                <h4 class="text-center alert alert-primary">Register an Investigator</h4>
                 <form action="" method="POST">
                     {% csrf_token %} 
                     {{form.as_p}}
@@ -16,7 +91,7 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <h4 class="text-center alert alert-danger">Investigators' Information</h4>
+                <h4 class="text-center alert alert-primary">Investigators' Information</h4>
                 {% if investigators %}
                     <div class="overflow-auto" style="height: 350px;">
                         <table class="table table-hover overflow-auto">
@@ -32,7 +107,7 @@
                             <tbody>
                                 {% for investigator in investigators %}
                                     <tr>
-                                        <th scope="row" class="text-info">{{investigator.investigator_code}}</th>
+                                        <th scope="row" class="text-info text-center">{{investigator.investigator_code}}</th>
                                         <td class="text-center">{{investigator.name}}</td>
                                         <td class="text-center">{{investigator.phone}}</td>
                                         <td class="text-center">{{investigator.email}}</td>
