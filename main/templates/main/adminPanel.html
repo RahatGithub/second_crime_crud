@@ -30,13 +30,13 @@
                                         <th scope="row" class="text-info text-center">{{case.case_code}}</th>
                                         <td class="text-center">{{case.location}}</td>
                                         <td class="text-center">{{case.desc}}</td>
-                                        <td class="text-center">{{case.status}}</td>
+                                        <td class="text-center text-success">{{case.status}}</td>
                                         <td class="text-center">{{case.reporter_name}}</td>
                                         <td class="text-center">{{case.reporter_phone}}</td>
                                         <td class="text-center">{{case.investigator_code}}</td>
                                         <td class="text-center">            
-                                            <a href="{% url 'updateData' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
-                                            <form action="{% url 'deleteData' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
+                                            <a href="{% url 'updateCase' case.id %}" class="btn btn-warning btn-sm mt-1">Edit</a>
+                                            <form action="{% url 'deleteCase' case.id %}" method="POST" class="d-inline"> {% csrf_token %}
                                                 <input type="submit" class="btn btn-danger btn-sm mt-1" value="Remove">
                                             </form>                
                                         </td>
@@ -87,7 +87,9 @@
                 <form action="" method="POST">
                     {% csrf_token %} 
                     {{form.as_p}}
-                    <input type="submit" class="btn btn-info" value="Register">
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-info col-md-4" value="Register">
+                    </div>
                 </form>
             </div>
             <div class="col-md-8">

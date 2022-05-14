@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Update case {% endblock %}
+
+{% block body %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6  my-5">
+            <h4 class="alert alert-warning text-center">Update Information</h4>
+            <form action="" method="POST">  {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-warning" value="Update"> 
+                <a href="/main/adminPanel/" class="btn btn-info text-white">Back to dashboard</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
